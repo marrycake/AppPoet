@@ -7,6 +7,7 @@ from GetApkData import GetApkData
 from LLMDiagnostic import get_deepseek_diagnostic
 from classification.MLPClassification import MLPClassifier
 from descriptioniGen import descriptGen
+from logger import Logger
 from memory import Memory
 from LLMSummary import get_deepseek_summary
 from tokenizer import encode_views_summary
@@ -46,8 +47,12 @@ def process_single_file(i, file_name, family, folder, feature_folder, memory):
 
     try:
         feature_views = descriptGen(features_output_path, memory)
+        Logger.debug(
+            f"<feature_views>: {json.dumps(feature_views)}")
         summary_views = json.loads(
             get_deepseek_summary(json.dumps(feature_views)))
+        Logger.debug(
+            f"<summary_views>: {json.dumps(summary_views)}")
         combine_tokens = encode_views_summary(feature_views, summary_views)
         return combine_tokens.numpy(), family
 
@@ -143,4 +148,7 @@ def diagnostic_test():
 
 if __name__ == "__main__":
     # main()
-    diagnostic_test()
+    # diagnostic_test()
+
+    process_single_file(0, "fded1ec2d17f957b230feb5fff518ec98322a1617e4e28953ff38270cb16098a", "example_family", "./datasets",
+                        "./features", Memory("localhost", 6379, "123456"))

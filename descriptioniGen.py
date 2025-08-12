@@ -1,7 +1,7 @@
 import hashlib
 import json
 
-from LMMDescriptionGen import get_deepseek_response
+from LMMDescriptionGen import LLMFieldDescription, LLMMethodDescription
 from logger import Logger
 
 
@@ -27,7 +27,7 @@ def addDescription(featureList, featureType, memory
     featureDict = {}
     for feature in featureList:
         if not memory.hexists(featureType, feature):
-            description = get_deepseek_response(featureType, feature)
+            description = LLMFieldDescription(featureType, feature)
             memory.hset(featureType, feature, description)
             Logger.debug(
                 f"\033[31mdescription for LLM\033[0m {featureType}: {feature} -> {description}"
@@ -42,7 +42,7 @@ def addDescription(featureList, featureType, memory
 
 def addSingleDescription(feature, featureType, memory):
     if not memory.hexists(featureType, feature):
-        description = get_deepseek_response(featureType, feature)
+        description = LLMFieldDescription(featureType, feature)
         memory.hset(featureType, feature, description)
         Logger.debug(
             f"\033[31mdescription for LLM\033[0m {featureType}: {feature} -> {description}"
@@ -57,7 +57,7 @@ def addSingleDescription(feature, featureType, memory):
 def addSingleDescriptionToUnstructuredString(feature, featureType, memory):
     featureHash = hashlib.sha256(feature.encode()).hexdigest()
     if not memory.hexists(featureType, featureHash):
-        description = get_deepseek_response(featureType, feature)
+        description = LLMMethodDescription(feature)
         memory.hset(featureType, featureHash, description)
         Logger.debug(
             f"\033[31mdescription for LLM\033[0m {featureType}: {featureHash} -> {description}"
@@ -108,9 +108,9 @@ def descriptGen(file_path, memory) -> str:
         className = classFeature["class_name"]
         classMethods = classFeature["methods"]
         for classMethod in classMethods:
-            methodFullName = f"{classMethod["private constructor"]} {classMethod["name"]} {classMethod["descriptor"]}"
+            methodFullName = f"{classMethod['access_flags']} {classMethod['name']} {classMethod['descriptor']}"
             methodDescription = addSingleDescriptionToUnstructuredString(
-                classMethod, "Method", memory)
+                json.dumps(classMethod), "Method", memory)
             methodDict[methodFullName] = methodDescription
         classFeatureDict[className] = methodDict
 
