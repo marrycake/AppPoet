@@ -1,21 +1,33 @@
+import asyncio
 import json
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import random
 import torch
 from GetApkData import GetApkData
-from LLMDiagnostic import get_deepseek_diagnostic
+from LLM.LLMAsyncGen import LLMAsyncGen
+from LLM.deepseekAsyncGen import DeepseekAsyncGen
+from LLM.ollamaGen import OllamaGen
 from classification.MLPClassification import MLPClassifier
-from descriptioniGen import descriptGen
+from descriptioniGen import asyncDescriptGen, descriptGen
 from logger import Logger
 from memory import Memory
-from LLMSummary import get_deepseek_summary
+from persistence.mongoPersistence import MongoPersistence
 from tokenizer import encode_views_summary
 import torch
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
+from dbHandler.mongoDBHandler import MongoDBHandler
+from persistence.persistence import Persistence
 
 NUM_WORKERS = 32  # 根据你的 CPU 核心数调整
+# llmGen = OllamaGen("gpt-oss:latest", "http://localhost:11434")
+llmGen = DeepseekAsyncGen(api_key="sk-9ede8c842c0a4588879be08bda35abde",
+                          base_url="https://api.deepseek.com/v1")
+mongoDBHandler = MongoDBHandler()
+memory = Memory("localhost", 6379, "123456")
+persistence = MongoPersistence(
+    "mongodb://admin:secret@localhost:27017/?authSource=admin", "AppPoet")
 
 
 def release_gpu():
@@ -34,7 +46,7 @@ def data_process():
     return sha256, family
 
 
-def process_single_file(i, file_name, family, folder, feature_folder, memory):
+def process_single_file(i, file_name, family, folder, feature_folder, memory: Memory, llmGen: LLMAsyncGen):
     file_path = os.path.join(folder, file_name)
     features_output_path = os.path.join(
         feature_folder, file_name + "_features.json")
@@ -46,11 +58,11 @@ def process_single_file(i, file_name, family, folder, feature_folder, memory):
         return None  # 文件不存在则跳过
 
     try:
-        feature_views = descriptGen(features_output_path, memory)
+        feature_views = descriptGen(features_output_path, memory, llmGen)
         Logger.debug(
             f"<feature_views>: {json.dumps(feature_views)}")
         summary_views = json.loads(
-            get_deepseek_summary(json.dumps(feature_views)))
+            llmGen.generate_summary(json.dumps(feature_views)))
         Logger.debug(
             f"<summary_views>: {json.dumps(summary_views)}")
         combine_tokens = encode_views_summary(feature_views, summary_views)
@@ -61,26 +73,22 @@ def process_single_file(i, file_name, family, folder, feature_folder, memory):
         return None
 
 
-def process_single_file_more_info(i, file_name, family, folder, feature_folder, memory):
+def process_single_file_more_info(i, file_name, family, folder, feature_folder, memory: Memory, llmGen: LLMAsyncGen):
     file_path = os.path.join(folder, file_name)
     features_output_path = os.path.join(
         feature_folder, file_name + "_features.json")
+    if not persistence.set_target(file_name):
+        if not GetApkData(file_path, persistence):
+            return None
 
-    if not GetApkData(file_path, features_output_path):
-        return None
-
-    if not os.path.exists(features_output_path):
-        return None  # 文件不存在则跳过
-
-    try:
-        feature_views = descriptGen(features_output_path, memory)
-        summary_views = json.loads(
-            get_deepseek_summary(json.dumps(feature_views)))
-        combine_tokens = encode_views_summary(feature_views, summary_views)
-        return combine_tokens.numpy(), family, feature_views, summary_views
-    except Exception as e:
-        print(f"[!] Error processing {file_name}: {e}")
-        return None
+    feature_views = asyncio.run(asyncDescriptGen(
+        persistence, memory, llmGen))
+    json.dump(feature_views, open(
+        f"./{file_name}_feature_views.json", "w"))
+    summary_views = json.loads(
+        asyncio.run(llmGen.generate_summary(json.dumps(feature_views))))
+    combine_tokens = encode_views_summary(feature_views, summary_views)
+    return combine_tokens.numpy(), family, feature_views, summary_views
 
 
 def main():
@@ -112,16 +120,18 @@ def main():
 
 
 def diagnostic_test():
-    memory = Memory("localhost", 6379, "123456")
     folder = "./datasets"
     feature_folder = "./features"
     sha256_list, familys = data_process()
 
-    i = random.randint(0, len(sha256_list) - 1)
-    file_name = sha256_list[i]
-    family = familys[i]
+    # i = random.randint(0, len(sha256_list) - 1)
+    # file_name = sha256_list[i]
+
+    # file_name = "f0ce2764655d267d6f322da34c4987753debd2921fd2d7f16d542a5a5e28d06c"
+    file_name = "e07c72efa6141e4c6c5f426105919b3813aa63cbd4ca5f359874d61dac76955d"
+    family = familys[0]
     combine_tokens, family, feature_views, summary_views = process_single_file_more_info(
-        i, file_name, family, folder, feature_folder, memory)
+        0, file_name, family, folder, feature_folder, memory, llmGen)
 
     families = torch.load("all_families.pt", weights_only=False)
 
@@ -139,7 +149,7 @@ def diagnostic_test():
 
     release_gpu()
 
-    print(get_deepseek_diagnostic(json.dumps(feature_views),
+    print(llmGen.generate_diagnostic(json.dumps(feature_views),
           le.inverse_transform([family_code])[0]))
     print(family)
     print(summary_views)
@@ -148,7 +158,7 @@ def diagnostic_test():
 
 if __name__ == "__main__":
     # main()
-    # diagnostic_test()
+    diagnostic_test()
 
-    process_single_file(0, "fded1ec2d17f957b230feb5fff518ec98322a1617e4e28953ff38270cb16098a", "example_family", "./datasets",
-                        "./features", Memory("localhost", 6379, "123456"))
+    # process_single_file(0, "fded1ec2d17f957b230feb5fff518ec98322a1617e4e28953ff38270cb16098a", "example_family", "./datasets",
+    #                     "./features", Memory("localhost", 6379, "123456"))

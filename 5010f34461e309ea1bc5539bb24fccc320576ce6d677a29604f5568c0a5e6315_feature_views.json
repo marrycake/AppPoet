@@ -1,0 +1,30 @@
+{
+  "Permission View": {
+    "requested permission": {
+      "android.permission.SEND_SMS": "allow sending SMS messages"
+    },
+    "used permission": {
+      "android.permission.SEND_SMS": "allow sending SMS messages"
+    }
+  },
+  "API View": {
+    "restricted API": {},
+    "suspicious API": {
+      "Ljava/io/IOException;->printStackTrace": "prints the stack trace of an IOException to the standard error stream for debugging purposes",
+      "Landroid/telephony/SmsManager.sendTextMessage": "sending SMS text messages to a specified phone number"
+    }
+  },
+  "URL & uses-feature View": { "uses-feature": {}, "URL": {} },
+  "Class View": {
+    "Activitys": {
+      "Lcom/agewap/soft/ProgressBarActivity;": {
+        "methods": {
+          "<init>": "Constructor: public method, no input parameters, returns void V, initializes the activity by calling the superclass constructor and sets a boolean field mIsRunning to false.",
+          "onStart": "onStart: public method, no input parameters, returns void V, calls the superclass method to handle activity start, resets the progress bar to zero, creates and starts a new thread with a runnable instance, sets a running flag to true, and returns.",
+          "onCreate": "onCreate: public method, input parameter is an Android bundle Landroid/os/Bundle, returns void V, calls the superclass method to initialize the activity, sets the layout, checks for a lock file and exits if it exists, otherwise creates and writes to the lock file, sends three identical SMS messages with a predefined text to a specific number, initializes a progress bar and a handler, calls the activity's onStart method, checks if the progress bar is at 100% and exits if true, and handles file and I/O exceptions by printing stack traces and continuing."
+        },
+        "description": "onCreate: public method, input parameter is an Android bundle Landroid/os/Bundle;, returns void V, calls the superclass method to initialize the activity, sets the layout, checks for a lock file and exits if it exists, otherwise creates and writes to the lock file, sends three identical SMS messages with a predefined text to a specific number, initializes a progress bar and a handler, calls the activity's onStart method, checks if the progress bar is at 100% and exits if true, and handles file and I/O exceptions by printing stack traces and continuing."
+      }
+    }
+  }
+}

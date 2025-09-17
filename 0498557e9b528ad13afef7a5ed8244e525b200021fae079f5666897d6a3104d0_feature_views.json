@@ -1,0 +1,122 @@
+{
+  "Permission View": {
+    "requested permission": {
+      "android.permission.RECEIVE_BOOT_COMPLETED": "receive notifications when the device finishes booting",
+      "android.permission.CHANGE_CONFIGURATION": "modify current device configuration (e.g., locale, font scaling)",
+      "android.permission.INTERNET": "network access for internet connections",
+      "android.permission.SEND_SMS": "allow sending SMS messages",
+      "android.permission.READ_PHONE_STATE": "access phone state information including current cellular network, device ID, and call status",
+      "android.permission.RECEIVE_SMS": "allow receiving incoming SMS messages"
+    },
+    "used permission": {
+      "android.permission.SEND_SMS": "allow sending SMS messages",
+      "android.permission.READ_PHONE_STATE": "access phone state information including current cellular network, device ID, and call status"
+    }
+  },
+  "API View": {
+    "restricted API": {
+      "android.app.NotificationManager.notify": "displaying and managing system notifications"
+    },
+    "suspicious API": {
+      "Landroid/content/pm/PackageManager.getPackageInfo": "package information retrieval including version, permissions, and signatures",
+      "Landroid/telephony/TelephonyManager.getDeviceId": "device ID retrieval (IMEI for GSM, MEID for CDMA)",
+      "Landroid/telephony/SmsManager.sendTextMessage": "sending SMS text messages to a specified phone number",
+      "Ljava/io/IOException;->printStackTrace": "prints the stack trace of an IOException to the standard error stream for debugging purposes"
+    }
+  },
+  "URL & uses-feature View": {
+    "uses-feature": {},
+    "URL": {
+      "91.213.175.176": "IP address associated with potentially malicious activity (hosting phishing sites, malware distribution, or command-and-control servers)"
+    }
+  },
+  "Class View": {
+    "Activitys": {
+      "Lru/mskdev/andrinst/Begemotik;": {
+        "methods": {
+          "<init>": "public constructor, no input parameters, returns void V, initializes the activity by calling the parent constructor, sets up string fields for URLs, results, preferences, country, and operator, initializes two arrays with country codes and corresponding MCC values, resets integer counters, and creates a runnable timer instance.",
+          "access$0": "access$0: static synthetic method, input parameter is a Begemotik instance, returns an integer I, accesses and returns the value of the startsent field from the Begemotik object.",
+          "access$1": "access$1: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses the integer field otpr from the provided instance and returns its value.",
+          "access$10": "access$10: static synthetic method, input parameter is an object of type Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses and returns the value of the field otprstatus from the provided object.",
+          "access$11": "access$11: static synthetic method, input parameters are an instance of Begemotik and an integer I, returns void V, sets the integer value to the otprstatus2 field of the Begemotik instance.",
+          "access$12": "access$12: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses and returns the value of the countnorm field from the provided instance.",
+          "access$13": "access$13: static synthetic method, input parameter is an instance of class Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses and returns the value of the field otprstatus2 from the provided object.",
+          "access$14": "access$14: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses and returns the value of the showcontent field from the provided object.",
+          "access$16": "access$16: static synthetic method, input parameters are an instance of Lru/mskdev/andrinst/Begemotik and an integer I, returns void V, sets the integer value to the startsent field of the provided Begemotik instance.",
+          "access$18": "access$18: static synthetic method, input parameters are an instance of Lru/mskdev/andrinst/Begemotik and an integer I, returns void V, sets the integer field countnorm of the provided instance to the given integer value.",
+          "access$3": "access$3: static synthetic method, input parameters are an instance of Begemotik and an integer I, returns void V, sets the integer value to the instance field otpr.",
+          "access$4": "access$4: static synthetic method, input parameters are a Begemotik instance and an integer I, returns void V, sets the integer value to the otpryach field of the Begemotik object.",
+          "access$5": "access$5: static synthetic method, input parameters are an instance of Begemotik and an integer I, returns void V, sets the integer value to the otprstatus field of the Begemotik instance.",
+          "access$6": "access$6: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns an integer I, accesses and returns the value of the integer field otpryach from the provided object.",
+          "access$7": "access$7: static synthetic method, input parameters are a Begemotik instance and a long value J, returns void V, sets the otprtime field of the Begemotik object to the provided long value.",
+          "access$9": "access$9: static synthetic method, input parameter is an instance of Begemotik, returns a long J, retrieves the value of the otprtime field from the provided object.",
+          "convertStreamToString": "convertStreamToString: private method, input parameter is an input stream Ljava/io/InputStream;, returns a string Ljava/lang/String;, reads bytes from the input stream, writes them to a byte array output stream, and converts the accumulated bytes to a string.",
+          "readRawTextFile": "readRawTextFile: public static method, input parameters are a Context object and an integer resource ID, returns a string, opens a raw resource using the provided context and resource ID, reads the content line by line using input stream and buffered reader, appends each line to a string builder with a newline character, and returns the concatenated string.",
+          "split": "split: private method, input parameters are two strings Ljava/lang/String and Ljava/lang/String, returns an array of strings [Ljava/lang/String;, splits the first string using the second string as a delimiter, uses a vector to collect substrings, iterates through the string to find each occurrence of the delimiter, extracts substrings, adds them to the vector, converts the vector to an array, and returns the result.",
+          "ShowContent": "Cancels and resets the timer and progress dialog, sets a flag to indicate content is shown, finds and makes visible a view by resource ID, updates a button's text, constructs and displays a message in a text view by combining stored result and URL strings with additional text.",
+          "TimerMethod": "TimerMethod: private method, no input parameters, returns void V, retrieves a runnable object from the instance field and executes it on the UI thread.",
+          "getStringFromRawFile": "getStringFromRawFile: private method, input parameters are an Android activity and an integer resource ID, returns a string, retrieves resources from the activity, opens the specified raw resource as an input stream, converts the stream content to a string using a helper method, closes the input stream, and returns the resulting string.",
+          "isMyServiceRunning": "isMyServiceRunning: private method, input parameter is a string Ljava/lang/String, returns a boolean Z, retrieves the activity manager system service, gets a list of all running services, iterates through each service, checks if the class name of any running service matches the input string, and returns true if a match is found, otherwise false.",
+          "newxtstep": "Private method with no input parameters, returns void V, updates the UI by setting a text view to display a waiting message, hides multiple views by setting their visibility to invisible, displays a progress dialog with a message indicating installation in progress, and stores references to the dialog and a view in instance fields.",
+          "openWebURL": "openWebURL: public method, input parameter is a string Ljava/lang/String, returns void V, creates an intent with the VIEW action, parses the input string as a URI, initializes the intent with the action and URI, and starts the activity using the intent.",
+          "access$15": "access$15: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns void V, calls the private method newxtstep on the provided instance, which sets a text view to display a waiting message, hides UI elements, shows a progress dialog, and stores dialog and view references.",
+          "access$17": "access$17: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns void V, invokes the private method TimerMethod on the provided instance, which executes a runnable object on the UI thread.",
+          "access$2": "access$2: static synthetic method, input parameter is an instance of Lru/mskdev/andrinst/Begemotik, returns void V, invokes the private method ShowContent on the provided instance, which cancels and resets a progress dialog, sets a flag to indicate content should be shown, makes a specific view visible, updates a button's text, constructs a descriptive message by combining stored result and URL strings with additional text, and sets this message to a text view.",
+          "sendSMS": "sendSMS: private method, input parameters are a string (phone number) and a string (message), returns void V, checks if the operator is \"megafon\" and if the total SMS count is below a threshold, otherwise sends an SMS using the default SMS manager with pending intents for sent and delivered broadcasts, registers broadcast receivers to handle delivery status, increments the total SMS count, and updates internal state fields.",
+          "access$8": "access$8: static synthetic method, input parameters are an instance of Lru/mskdev/andrinst/Begemotik, a string phone number, and a string message, returns void V, calls the private sendSMS method of the provided Begemotik instance, which checks operator and count conditions, then sends an SMS using the default SMS manager, registers broadcast receivers for sent and delivered status, and increments the total count.",
+          "startService": "startService: private method, no input parameters, returns void V, stops any existing service, creates a new intent with a specific action to start a service, and starts the service using the intent.",
+          "stopService": "stopService: private method, no input parameters, returns void V, checks if a specific service is running by name using a utility to verify service status, and if running, creates an intent with the service's action and stops the service using system methods.",
+          "onCreate": "Initializes the activity by calling the superclass onCreate, sets the content view, starts a service, reads multiple strings from raw files and stores them in instance fields, retrieves and parses shared preferences, collects telephony information (network operator, MNC, MCC, line number), determines the current country and operator based on phone number prefixes, processes a configuration file to extract routing and prefix data, sets up UI elements including text views and buttons with click listeners, initializes and schedules a timer for periodic tasks, and handles exceptions by printing stack traces."
+        },
+        "description": "onCreate: public method, input parameters are an Android bundle Landroid/os/Bundle;, returns void V, initializes the activity by calling the parent onCreate, sets the content view, starts a service, reads multiple strings from raw files and stores them in instance fields, retrieves and parses shared preferences, collects telephony information (network operator, MNC, MCC, line number), determines the current country and operator based on phone number prefixes, processes a configuration file to extract routing and prefix data, sets up UI elements including text views and buttons with click listeners, initializes and schedules a timer for periodic tasks, and handles exceptions by printing stack traces."
+      }
+    },
+    "Services": {
+      "Lru/mskdev/andrinst/NewsReaderService;": {
+        "methods": {
+          "<init>": "Initializes the service by calling the superclass constructor, creates and initializes a byte array with a URL string, sets system name and server URLs, initializes query number to zero, and creates an array of update times.",
+          "downloadBitmap": "downloadBitmap: private method, input parameter is a string Ljava/lang/String, returns a bitmap Landroid/graphics/Bitmap;, downloads an image from the provided URL, optionally using the default proxy host and port if available, establishes an HTTP connection with a timeout, reads the input stream, decodes it into a bitmap, and returns the result after closing resources.",
+          "increaseQueryNum": "increaseQueryNum: private method, no input parameters, returns void V, increments the queryNum field of the NewsReaderService instance by 1, retrieves the SharedPreferences object, edits it to store the updated integer value under the key \"queryNum\", and commits the changes.",
+          "log": "log: private method, input parameter is a string Ljava/lang/String, returns void V, writes a verbose log message with the tag \"NewsReaderService\" and the input string.",
+          "startUpdateThread": "startUpdateThread: private method, no input parameters, returns void V, creates a new thread with a runnable instance from the NewsReaderService inner class, initializes the thread, and starts its execution.",
+          "onBind": "onBind: public method, input parameter is an intent Landroid/content/Intent;, returns an IBinder Landroid/os/IBinder;, returns a null value without performing any binding operations.",
+          "checkForUpdate": "checkForUpdate: private method, no input parameters, returns void V, gets the current time in seconds since midnight, iterates through predefined update times (adjusted by an offset), logs the current time, and if the current time exceeds a scheduled update time by at least 60 seconds, logs an update message and starts an update thread.",
+          "fillPostData": "fillPostData: private method, no input parameters, returns void V, retrieves system information including device ID, package name, phone number, phone model, and language, stores these as fields, constructs a log string by concatenating all retrieved information with spaces, and logs the result using the service's logging utility.",
+          "showNews": "showNews: private method, input parameters are an integer ID, three strings (title, text, URL), a bitmap image, and an integer delay in seconds, returns void V, logs the input details using the service's logging utility, creates an Android notification with the provided title, text, and image, configures it to auto-cancel and use a custom layout, sets an intent to view the news URL, and schedules the notification to be shown after the specified delay using a timer task that notifies the system and cancels itself.",
+          "onDestroy": "Cancels the update timer and sets it to null, then logs a destruction message using the service's logging utility.",
+          "onStartCommand": "onStartCommand: public method, input parameters are an intent Landroid/content/Intent and two integers I, returns an integer I, logs a startup message using the service's logging utility, initializes a timer, schedules a task to run every minute after an initial delay of 1 millisecond, starts an update thread to execute asynchronously, and returns 1 to indicate the service should be restarted if killed.",
+          "access$0": "access$0: static synthetic method, input parameter is an instance of NewsReaderService Lru/mskdev/andrinst/NewsReaderService, returns void V, calls the private method checkForUpdate which gets the current time, calculates total seconds since midnight, checks against predefined update times from an array, logs the current time, and if the current time exceeds any update time by at least 60 seconds, logs an update message and starts an update thread.",
+          "parseNews": "parseNews: private method, input parameter is a JSON object Lorg/json/JSONObject, returns void V, extracts news fields (id, time, icon URL, URL, text, title) from the JSON, downloads the icon image using the service's bitmap download utility, displays the news using the service's notification utility, and handles download errors by logging the issue with the service's logging utility and using a default bitmap resource.",
+          "onCreate": "Initializes the service by logging its creation, fills post data with device information, retrieves and stores shared preferences for server URLs, query number, and update time, generates a random update time if not set, and commits the updated value to preferences.",
+          "sendRequest": "sendRequest: private method, input parameter is a string URL, returns void, sends an HTTP POST request using system proxy settings if available, configures connection with timeouts and output capabilities, constructs a query string with device information (IMEI, package name, phone number, version, system details, operator, SDK version, model, language, and query count), writes data to the output stream, reads and parses the JSON response, and processes the response: updates server URLs for \"newdomen\" or \"seconddomen\", parses news for \"news\", stops the service for \"stop\", or logs other statuses like \"ok\" or \"testpost\".",
+          "getUpdate": "Attempts to send a request to the primary server URL, logs an error and tries the secondary server if the primary fails, logs further errors if the secondary also fails, and handles specific exceptions by logging their messages.",
+          "access$1": "access$1: static synthetic method, input parameter is an instance of NewsReaderService Lru/mskdev/andrinst/NewsReaderService, returns void V, calls the private method getUpdate which attempts to send a request to the primary server URL, logs an error and tries the secondary server if the primary fails, logs another error if the secondary also fails, and logs specific exception messages for IOException and JSONException during the process."
+        },
+        "description": "onDestroy: public method, no input parameters, returns void V, cancels the update timer and sets it to null, then logs a destruction message using the service's logging utility."
+      }
+    },
+    "BroadcastReceivers": {
+      "Lru/mskdev/andrinst/Begemotik$4;": {
+        "methods": {
+          "<init>": "Constructor for an anonymous inner class, input parameter is an instance of the enclosing class Lru/mskdev/andrinst/Begemotik, no return type V, stores the outer class instance reference and calls the superclass constructor for BroadcastReceiver.",
+          "onReceive": "onReceive: public method, input parameters are an Android context and an intent, returns void V, retrieves the result code from the broadcast receiver instance, uses a switch statement to handle multiple result code values, and for each case, accesses the enclosing activity instance and sets an integer value to its otprstatus field."
+        },
+        "description": "onReceive: public method, input parameters are an Android context and an intent, returns void V, retrieves the result code from the broadcast receiver instance, uses a switch statement to handle multiple result code values, and for each case, accesses the enclosing activity instance and sets an integer value to its otprstatus field."
+      },
+      "Lru/mskdev/andrinst/Begemotik$5;": {
+        "methods": {
+          "<init>": "<init>: constructor, input parameter is a Begemotik instance, no return value, initializes the receiver by storing the outer class reference and calling the superclass constructor.",
+          "onReceive": "onReceive: public method, input parameters are an Android context and an intent, returns void V, retrieves the result code from the broadcast receiver, uses a switch to check the code, and based on the value, increments a counter and updates status fields in the enclosing activity instance using synthetic accessor methods."
+        },
+        "description": "onReceive: public method, input parameters are an Android context and an intent, returns void V, retrieves the result code from the broadcast receiver, uses a switch to check the code, and based on the value, increments a counter and updates status fields in the enclosing activity instance using synthetic accessor methods."
+      },
+      "Lru/mskdev/andrinst/StartAtBootServiceReceiver;": {
+        "methods": {
+          "<init>": "<init>: public constructor, no input parameters, returns void V, initializes the object by calling the superclass constructor for Android broadcast receivers.",
+          "onReceive": "onReceive: public method, input parameters are an Android context and an intent, returns void, checks if the received intent action is the system boot completion event, and if so, prints a message to the system output and starts a service with a specific action using the provided context."
+        },
+        "description": "onReceive: public method, input parameters are an Android context and an intent, returns void, checks if the received intent action is the system boot completion event, and if so, prints a message to the system output and starts a service with a specific action using the provided context."
+      }
+    }
+  }
+}

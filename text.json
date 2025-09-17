@@ -1,0 +1,512 @@
+{
+    "_id": ObjectId("68bc2bbbbf05d811c3c87f0a"),
+    "app_id": "67c811f6-ef6a-4cb9-8e89-a28efb29b36d",
+    "type": "class_info",
+    "class_id": "0d0fceca-08bc-4f8c-b6d0-a9df9bda9aaf",
+    "dex_index": Int32("0"),
+    "class_name": "Lcom/adwo/adsdk/AdwoAdBrowserActivity;",
+    "superclass_name": "Landroid/app/Activity;",
+    "fields": [
+        {
+            "field_name": "b",
+            "field_type": "[Ljava/lang/String;",
+            "access_flags": "private static"
+        },
+        {
+            "field_name": "a",
+            "field_type": "Lcom/adwo/adsdk/j;",
+            "access_flags": "private"
+        }
+    ],
+    "methods": [
+        {
+            "method_id": "04137bb8-5805-477b-a3b9-7b4ba3162828",
+            "name": "<clinit>",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "static constructor",
+            "instructions": [
+                {
+                    "opcode": "const/4",
+                    "operands": "v0, 3"
+                },
+                {
+                    "opcode": "new-array",
+                    "operands": "v0, v0, [Ljava/lang/String;"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v1, 0"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v2, \"explode\""
+                },
+                {
+                    "opcode": "aput-object",
+                    "operands": "v2, v0, v1"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v1, 1"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v2, \"toptobottom\""
+                },
+                {
+                    "opcode": "aput-object",
+                    "operands": "v2, v0, v1"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v1, 2"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v2, \"bottomtotop\""
+                },
+                {
+                    "opcode": "aput-object",
+                    "operands": "v2, v0, v1"
+                },
+                {
+                    "opcode": "sput-object",
+                    "operands": "v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->b [Ljava/lang/String;"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        },
+        {
+            "method_id": "85da120a-c46b-4150-98b7-c3d42e9dc008",
+            "name": "<init>",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "public constructor",
+            "instructions": [
+                {
+                    "opcode": "invoke-direct",
+                    "operands": "v0, Landroid/app/Activity;-><init>()V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        },
+        {
+            "method_id": "9bb897d7-6aa8-4ce8-ad83-5f2417ed3cac",
+            "name": "onCreate",
+            "input_params": [
+                "Landroid/os/Bundle"
+            ],
+            "return_type": "V",
+            "access_flags": "protected",
+            "instructions": [
+                {
+                    "opcode": "invoke-super",
+                    "operands": "v14, v15, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v0, 2"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->requestWindowFeature(I)Z"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v0, 1"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->setProgressBarVisibility(Z)V"
+                },
+                {
+                    "opcode": "const-wide/16",
+                    "operands": "v0, 600"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v2, 0"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v3, 1"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v4, 1"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v5, 1"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v6, 0"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->getIntent()Landroid/content/Intent;"
+                },
+                {
+                    "opcode": "move-result-object",
+                    "operands": "v7"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, Landroid/content/Intent;->getExtras()Landroid/os/Bundle;"
+                },
+                {
+                    "opcode": "move-result-object",
+                    "operands": "v7"
+                },
+                {
+                    "opcode": "if-eqz",
+                    "operands": "v7, +073h"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v0, \"transitionTime\""
+                },
+                {
+                    "opcode": "const-wide/16",
+                    "operands": "v1, 600"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v0, v1, v2, Landroid/os/Bundle;->getLong(Ljava/lang/String; J)J"
+                },
+                {
+                    "opcode": "move-result-wide",
+                    "operands": "v0"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v2, \"overlayTransition\""
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v2, Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v2, \"shouldResizeOverlay\""
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v3, 0"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v2, v3, Landroid/os/Bundle;->getInt(Ljava/lang/String; I)I"
+                },
+                {
+                    "opcode": "move-result",
+                    "operands": "v2"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v3, \"shouldShowTitlebar\""
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v4, 0"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v3, v4, Landroid/os/Bundle;->getBoolean(Ljava/lang/String; Z)Z"
+                },
+                {
+                    "opcode": "move-result",
+                    "operands": "v3"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v4, \"overlayTitle\""
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v4, Landroid/os/Bundle;->getString(Ljava/lang/String;)Ljava/lang/String;"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v4, \"shouldShowBottomBar\""
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v5, 1"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v4, v5, Landroid/os/Bundle;->getBoolean(Ljava/lang/String; Z)Z"
+                },
+                {
+                    "opcode": "move-result",
+                    "operands": "v4"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v5, \"shouldEnableBottomBar\""
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v6, 1"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v5, v6, Landroid/os/Bundle;->getBoolean(Ljava/lang/String; Z)Z"
+                },
+                {
+                    "opcode": "move-result",
+                    "operands": "v5"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v6, \"shouldMakeOverlayTransparent\""
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v8, 0"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v7, v6, v8, Landroid/os/Bundle;->getBoolean(Ljava/lang/String; Z)Z"
+                },
+                {
+                    "opcode": "move-result",
+                    "operands": "v6"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v9, v6"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v8, v5"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v7, v4"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v6, v3"
+                },
+                {
+                    "opcode": "move-wide",
+                    "operands": "v3, v0"
+                },
+                {
+                    "opcode": "sget-object",
+                    "operands": "v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->b [Ljava/lang/String;"
+                },
+                {
+                    "opcode": "invoke-static",
+                    "operands": "Ljava/lang/Math;->random()D"
+                },
+                {
+                    "opcode": "move-result-wide",
+                    "operands": "v10"
+                },
+                {
+                    "opcode": "const-wide/high16",
+                    "operands": "v12, 4613937818241073152"
+                },
+                {
+                    "opcode": "mul-double/2addr",
+                    "operands": "v10, v12"
+                },
+                {
+                    "opcode": "double-to-int",
+                    "operands": "v1, v10"
+                },
+                {
+                    "opcode": "aget-object",
+                    "operands": "v5, v0, v1"
+                },
+                {
+                    "opcode": "new-instance",
+                    "operands": "v0, Lcom/adwo/adsdk/j;"
+                },
+                {
+                    "opcode": "move-object",
+                    "operands": "v1, v14"
+                },
+                {
+                    "opcode": "invoke-direct/range",
+                    "operands": "v0 ... v9, Lcom/adwo/adsdk/j;-><init>(Landroid/app/Activity; I J Ljava/lang/String; Z Z Z Z)V"
+                },
+                {
+                    "opcode": "iput-object",
+                    "operands": "v0, v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->a Lcom/adwo/adsdk/j;"
+                },
+                {
+                    "opcode": "iget-object",
+                    "operands": "v0, v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->a Lcom/adwo/adsdk/j;"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->setContentView(Landroid/view/View;)V"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->getIntent()Landroid/content/Intent;"
+                },
+                {
+                    "opcode": "move-result-object",
+                    "operands": "v0"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v1, \"url\""
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v0, v1, Landroid/content/Intent;->getStringExtra(Ljava/lang/String;)Ljava/lang/String;"
+                },
+                {
+                    "opcode": "move-result-object",
+                    "operands": "v0"
+                },
+                {
+                    "opcode": "if-eqz",
+                    "operands": "v0, +00ch"
+                },
+                {
+                    "opcode": "iget-object",
+                    "operands": "v1, v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->a Lcom/adwo/adsdk/j;"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v1, v0, Lcom/adwo/adsdk/j;->a(Ljava/lang/String;)V"
+                },
+                {
+                    "opcode": "const/4",
+                    "operands": "v0, 1"
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v14, v0, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->setRequestedOrientation(I)V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                },
+                {
+                    "opcode": "iget-object",
+                    "operands": "v0, v14, Lcom/adwo/adsdk/AdwoAdBrowserActivity;->a Lcom/adwo/adsdk/j;"
+                },
+                {
+                    "opcode": "const-string",
+                    "operands": "v1, \"http://www.adwo.com\""
+                },
+                {
+                    "opcode": "invoke-virtual",
+                    "operands": "v0, v1, Lcom/adwo/adsdk/j;->a(Ljava/lang/String;)V"
+                },
+                {
+                    "opcode": "goto",
+                    "operands": "-ch"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v9, v6"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v8, v5"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v7, v4"
+                },
+                {
+                    "opcode": "move",
+                    "operands": "v6, v3"
+                },
+                {
+                    "opcode": "move-wide",
+                    "operands": "v3, v0"
+                },
+                {
+                    "opcode": "goto",
+                    "operands": "-3ch"
+                }
+            ]
+        },
+        {
+            "method_id": "16ca0fe0-9dd0-4cba-8352-4ee03751c8c6",
+            "name": "onDestroy",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "protected",
+            "instructions": [
+                {
+                    "opcode": "invoke-super",
+                    "operands": "v0, Landroid/app/Activity;->onDestroy()V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        },
+        {
+            "method_id": "134fefa5-4d0f-4985-ba08-2b058cff16de",
+            "name": "onPause",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "protected",
+            "instructions": [
+                {
+                    "opcode": "invoke-super",
+                    "operands": "v0, Landroid/app/Activity;->onPause()V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        },
+        {
+            "method_id": "8fc9204c-bae5-4f42-93e0-dd13cc8f5bb0",
+            "name": "onResume",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "protected",
+            "instructions": [
+                {
+                    "opcode": "invoke-super",
+                    "operands": "v0, Landroid/app/Activity;->onResume()V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        },
+        {
+            "method_id": "333d85f4-0059-4271-82b2-54c2060d6ac1",
+            "name": "onStop",
+            "input_params": [ ],
+            "return_type": "V",
+            "access_flags": "protected",
+            "instructions": [
+                {
+                    "opcode": "invoke-super",
+                    "operands": "v0, Landroid/app/Activity;->onStop()V"
+                },
+                {
+                    "opcode": "return-void",
+                    "operands": ""
+                }
+            ]
+        }
+    ]
+}

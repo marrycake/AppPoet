@@ -1,10 +1,13 @@
 import logging
+import uuid
 from Modules import PScoutMapping as PScoutMapping
 from Modules import BasicBlockAttrBuilder as BasicBlockAttrBuilder
 import re
 from androguard.misc import AnalyzeAPK
-import os
-import json
+from logger import Logger
+from utils.textProcessing import getFileBaseName, parse_descriptor
+
+from persistence.persistence import Persistence
 
 
 def extract_used_permissions(dx):
@@ -81,51 +84,56 @@ def GetFromInstructions(a, d, dx, PMap, RequestedPermissionList):
     return UsedPermissions, RestrictedApiSet, SuspiciousApiSet, URLDomainSet
 
 
-def extract_apk_methods_via_dx_internal_only(a, d, dx):
-    result = []
-
-    for method_analysis in dx.get_methods():
-        if method_analysis.is_external():
-            # 跳过外部方法
-            continue
-
-        m = method_analysis.get_method()
-        cls_name = m.get_class_name()
-
-        # 查找该类是否已添加
-        existing_class = next(
-            (c for c in result if c["class_name"] == cls_name), None)
-        if not existing_class:
-            existing_class = {
-                "class_name": cls_name,
+def extract_class_info(a, d, dx):
+    class_infos = []
+    for dex_index, dex_file in enumerate(d):
+        for class_def in dex_file.get_classes():
+            class_name = class_def.get_name()
+            superclass_name = class_def.get_superclassname()
+            class_id = str(uuid.uuid4())
+            class_info = {
+                "type": "class_info",
+                "class_id": class_id,
+                "dex_index": dex_index,
+                "class_name": class_name,
+                "superclass_name": superclass_name,
+                "fields": [],
                 "methods": []
             }
-            result.append(existing_class)
 
-        method_info = {
-            "name": m.get_name(),
-            "descriptor": m.get_descriptor(),
-            "access_flags": m.get_access_flags_string(),
-            "instructions": []
-        }
-
-        code_obj = m.get_code()
-        if code_obj:
-            bytecode = code_obj.get_bc()
-            for ins in bytecode.get_instructions():
-                method_info["instructions"].append({
-                    "opcode": ins.get_name(),
-                    "operands": ins.get_output()
+            # 提取字段
+            for field in class_def.get_fields():
+                class_info["fields"].append({
+                    "field_name": field.get_name(),
+                    "field_type": field.get_descriptor(),
+                    "access_flags": field.get_access_flags_string()
                 })
-        else:
-            method_info["instructions"] = None  # native or abstract
 
-        existing_class["methods"].append(method_info)
+            for method in class_def.get_methods():
+                params, return_type = parse_descriptor(method.get_descriptor())
+                method_id = str(uuid.uuid4())
+                method_info = {
+                    "method_id": method_id,
+                    "name": method.get_name(),
+                    "input_params": params,
+                    "return_type": return_type,
+                    "access_flags": method.get_access_flags_string(),
+                    "instructions": []
+                }
+                code_obj = method.get_code()
+                if code_obj:
+                    bytecode = code_obj.get_bc()
+                    for ins in bytecode.get_instructions():
+                        method_info["instructions"].append({
+                            "opcode": ins.get_name(),
+                            "operands": ins.get_output()
+                        })
+                class_info["methods"].append(method_info)
+            class_infos.append(class_info)
+    return class_infos
 
-    return result
 
-
-def ProcessingDataForGetApkData(ApkFile, PMap, outputPath):
+def ProcessingDataForGetApkData(ApkFile, PMap, persistence: Persistence):
     '''
     Produce .data file for a given ApkFile.
 
@@ -137,8 +145,6 @@ def ProcessingDataForGetApkData(ApkFile, PMap, outputPath):
     True means successful. False means unsuccessful.
     '''
     try:
-        DataDictionary = {}
-        logging.getLogger("androguard").setLevel(logging.INFO)
         a, d, dx = AnalyzeAPK(ApkFile)
         packageName, requestedPermissions,  activitys, services, contentProviders, broadcastReceivers, hardwareComponents, intentFilters = GetFromManifest(
             a, d, dx)
@@ -146,36 +152,47 @@ def ProcessingDataForGetApkData(ApkFile, PMap, outputPath):
         usedPermissions, restrictedApiSet, suspiciousApiSet, URLDomainSet = GetFromInstructions(
             a, d, dx, PMap, requestedPermissions)
 
-        usedMethods = extract_apk_methods_via_dx_internal_only(a, d, dx)
+        class_infos = extract_class_info(a, d, dx)
 
-        DataDictionary["PackageName"] = packageName
-        DataDictionary["RequestedPermission"] = requestedPermissions
-        DataDictionary["UsedPermission"] = list(usedPermissions)
-        DataDictionary["Activitie"] = activitys
-        DataDictionary["ServiceList"] = services
-        DataDictionary["ContentProviderList"] = contentProviders
-        DataDictionary["BroadcastReceiverList"] = broadcastReceivers
-        DataDictionary["HardwareComponentsList"] = hardwareComponents
-        DataDictionary["IntentFilterList"] = intentFilters
-        # Got Set S2 and others
-        DataDictionary["UsedMethods"] = usedMethods
+        app_id = str(uuid.uuid4())
 
-        DataDictionary["RestrictedAPIs"] = list(restrictedApiSet)
-        DataDictionary["SuspiciousAPIs"] = list(suspiciousApiSet)
-        DataDictionary["URL"] = list(URLDomainSet)
-        # Set S6, S5, S7, S8
+        appInfo = {
+            "app_id": app_id,
+            "type": "app_info",
+            "package_name": packageName,
+            "app_name": a.get_app_name(),
+            "version": 1.0,
+            "sha256": 123,
+            "md5": 123,
+            "requested_permissions": requestedPermissions,
+            "used_permissions": list(usedPermissions),
+            "activitys": activitys,
+            "services": services,
+            "content_providers": contentProviders,
+            "broadcast_receivers": broadcastReceivers,
+            "hardware_components": hardwareComponents,
+            "restricted_apis": list(restrictedApiSet),
+            "suspicious_apis": list(suspiciousApiSet),
+            "urls": list(URLDomainSet),
+        }
+        persistence.insert(appInfo)
 
-        with open(outputPath, 'w', encoding='utf-8') as f:
-            json.dump(DataDictionary, f, indent=4)
+        for class_info in class_infos:
+            class_info = {
+                "app_id": app_id,
+                **class_info
+            }
+            persistence.insert(class_info)
 
+        persistence.save()
         return True
 
     except Exception as e:
-        print(e)
+        Logger.error(f"Error processing {ApkFile}: {e}")
         return False
 
 
-def GetApkData(ApkPath, outputPath):
+def GetApkData(ApkPath, persistence: Persistence):
     '''
     Get Apk data dictionary for all Apk files under ApkDirectoryPath and store them in ApkDirectoryPath
     Used for next step's classification
@@ -189,4 +206,4 @@ def GetApkData(ApkPath, outputPath):
     PMap = PScoutMapping.PScoutMapping()
     # os.chdir(CWD)
 
-    return ProcessingDataForGetApkData(ApkPath, PMap, outputPath)
+    return ProcessingDataForGetApkData(ApkPath, PMap, persistence)
